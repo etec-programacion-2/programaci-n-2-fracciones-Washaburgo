@@ -2,17 +2,14 @@
 package org.example
 
 fun main() {
-    try {
-        val f1 = Fraccion(1, 2)
-        println("Fracción 1: ${f1.toString()}")
-        f1.mostrar()
-        
-        val f2 = Fraccion(3, 4)
-        println("Fracción 2: $f2")
-        
-        // Esto debería lanzar una excepción
-        // val f3 = Fraccion(1, 0)
-    } catch (e: IllegalArgumentException) {
-        println("Error: ${e.message}")
-    }
+    val f1 = Fraccion(1, 2)
+    val f2 = Fraccion(1, 3)
+    
+    println("Suma: ${f1 + f2}")  // Debería mostrar 5/6
+    println("Resta: ${f1 - f2}")  // Debería mostrar 1/6
+    
+    // Probando con simplificación
+    val f3 = Fraccion(2, 4)
+    val f4 = Fraccion(3, 6)
+    println("Suma simplificada: ${f3 + f4}")  // Debería mostrar 1/1
 }
