@@ -1,0 +1,1 @@
+Basicamente Puse todo el README, osea si lo pongo seria el README sin nada mas.
