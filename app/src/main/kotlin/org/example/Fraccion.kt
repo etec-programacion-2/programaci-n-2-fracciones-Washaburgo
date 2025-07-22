@@ -1,32 +1,40 @@
-
+// Fraccion.kt
 package org.example
 
-class Fraccion(numerador: Int, denominador: Int) {
-    class Fraccion(numerador: Int, denominador: Int) {
-    var numerador: Int = numerador
-        get() = field
-        set(value) { field = value }
+class Fraccion(numerador: Int, denominador: Int) : Comparable<Fraccion> {
+    // ... (código anterior se mantiene igual)
     
-    var denominador: Int = denominador
-        get() = field
-        set(value) { 
-            if (value == 0) throw IllegalArgumentException("El denominador no puede ser cero")
-            field = value 
-        }
-    
-    operator fun times(otra: Fraccion): Fraccion {
-        val nuevoNumerador = numerador * otra.numerador
-        val nuevoDenominador = denominador * otra.denominador
-        return Fraccion(nuevoNumerador, nuevoDenominador).simplificar()
+    operator fun compareTo(otra: Fraccion): Int {
+        val valor1 = numerador.toDouble() / denominador
+        val valor2 = otra.numerador.toDouble() / otra.denominador
+        return valor1.compareTo(valor2)
     }
     
-    operator fun div(otra: Fraccion): Fraccion {
-        if (otra.numerador == 0) {
-            throw ArithmeticException("No se puede dividir por una fracción con numerador cero")
-        }
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Fraccion) return false
         
-        val nuevoNumerador = numerador * otra.denominador
-        val nuevoDenominador = denominador * otra.numerador
-        return Fraccion(nuevoNumerador, nuevoDenominador).simplificar()
+        val f1 = this.simplificar()
+        val f2 = other.simplificar()
+        
+        return f1.numerador == f2.numerador && f1.denominador == f2.denominador
+    }
+    
+    override fun hashCode(): Int {
+        val simplified = simplificar()
+        return 31 * simplified.numerador + simplified.denominador
+    }
+    
+    fun esMayor(otra: Fraccion): Boolean = this > otra
+    fun esMenor(otra: Fraccion): Boolean = this < otra
+    
+    fun aDecimal(): Double = numerador.toDouble() / denominador
+    
+    companion object {
+        fun desdeDecimal(decimal: Double, precision: Int = 10000): Fraccion {
+            val denominador = precision.toDouble()
+            val numerador = decimal * denominador
+            return Fraccion(numerador.toInt(), precision).simplificar()
+        }
     }
 }
